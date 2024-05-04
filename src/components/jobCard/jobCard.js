@@ -5,18 +5,8 @@ import { FaCheckSquare } from "react-icons/fa";
 import { IoHourglassOutline } from "react-icons/io5";
 import { MdOutlineElectricBolt } from "react-icons/md";
 import { useSelector } from "react-redux";
+import { currencySymbol } from "../../global/values";
 import Placeholder from "./placeholder";
-
-const currencySymbol = {
-  INR: {
-    symbol: "₹",
-    yearly: "LPA",
-  },
-  USD: {
-    symbol: "$",
-    yearly: "LPA",
-  },
-};
 
 function JobCard({ data }) {
   const jdLoading = useSelector((state) => state.JobCardReducer.jdLoading);
