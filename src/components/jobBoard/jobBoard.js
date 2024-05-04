@@ -35,27 +35,65 @@ function JobBoard() {
   );
   const companyName = useSelector((state) => state.JobBoardReducer.companyName);
 
-  const handleScroll = () => {
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollContainer = scrollContainerRef.current;
+      if (scrollContainer) {
+        const { scrollTop, scrollHeight, clientHeight } = scrollContainer;
+        if (scrollTop + clientHeight + 20 >= scrollHeight) {
+          setOffset((prev) => prev + 10);
+        }
+      }
+    };
+
     const scrollContainer = scrollContainerRef.current;
     if (scrollContainer) {
-      const { scrollTop, scrollHeight, clientHeight } = scrollContainer;
-      if (scrollTop + clientHeight >= scrollHeight) {
-        setOffset((prev) => prev + 10);
-      }
+      scrollContainer.addEventListener("scroll", handleScroll);
     }
-  };
+
+    return () => {
+      if (scrollContainer) {
+        scrollContainer.removeEventListener("scroll", handleScroll);
+      }
+    };
+  }, []);
 
   const filteredList = useMemo(() => {
-    return jdList;
+    let tmpJdList = structuredClone(jdList);
+    if (role.length) {
+      tmpJdList = tmpJdList.filter((item) => role.includes(item.jobRole));
+    }
+    if (location.length) {
+      tmpJdList = tmpJdList.filter((item) => location.includes(item.location));
+    }
+    if (minimumSalaryFilter.length) {
+      tmpJdList = tmpJdList.filter(
+        (item) =>
+          (item?.minJdSalary ?? -Infinity) <= minimumSalaryFilter[0] &&
+          (item?.maxJdSalary ?? Infinity) >= minimumSalaryFilter[1]
+      );
+    }
+    if (companyName) {
+      tmpJdList = tmpJdList.filter((item) =>
+        item.companyName.toLowerCase().includes(companyName.toLowerCase())
+      );
+    }
+    if (experienceFilter.length) {
+      tmpJdList = tmpJdList.filter(
+        (item) =>
+          (item?.minExp ?? -Infinity) <= experienceFilter[0] &&
+          (item?.maxExp ?? Infinity) >= experienceFilter[1]
+      );
+    }
+    return tmpJdList;
   }, [
-    rolesFilter,
+    role,
     numberofEmployessFilter,
     experienceFilter,
-    remoteFilter,
+    location,
     minimumSalaryFilter,
     companyName,
     jdList,
-    offset,
   ]);
 
   useEffect(() => {
@@ -63,11 +101,7 @@ function JobBoard() {
   }, [offset]);
 
   return (
-    <div
-      className="jobboard-container"
-      ref={scrollContainerRef}
-      onScroll={handleScroll}
-    >
+    <div className="jobboard-container" ref={scrollContainerRef}>
       <div className="filter-container">
         <Autocomplete
           className="filter-input"
@@ -77,6 +111,10 @@ function JobBoard() {
           renderInput={(params) => <TextField {...params} label="Roles" />}
           value={role}
           onChange={(e, value) => {
+            if (!value) {
+              setRole([]);
+              return;
+            }
             if (role.includes(value)) {
               setRole(role.filter((item) => item !== value));
             } else {
@@ -94,7 +132,11 @@ function JobBoard() {
             <TextField {...params} label="Number Of Employees" />
           )}
           onChange={(e, value) => {
-            dispatch(setNumberofEmployessFilter(value));
+            if (value) {
+              dispatch(setNumberofEmployessFilter(value.value));
+            } else {
+              dispatch(setNumberofEmployessFilter([]));
+            }
           }}
         />
         <Autocomplete
@@ -105,7 +147,11 @@ function JobBoard() {
           value={experienceFilter}
           renderInput={(params) => <TextField {...params} label="Experience" />}
           onChange={(e, value) => {
-            dispatch(setExperienceFilter(value));
+            if (value) {
+              dispatch(setExperienceFilter(value.value));
+            } else {
+              dispatch(setExperienceFilter([]));
+            }
           }}
         />
         <Autocomplete
@@ -116,6 +162,10 @@ function JobBoard() {
           renderInput={(params) => <TextField {...params} label="Remote" />}
           value={location}
           onChange={(e, value) => {
+            if (!value) {
+              setLocation([]);
+              return;
+            }
             if (location.includes(value)) {
               setLocation(location.filter((item) => item !== value));
             } else {
@@ -133,7 +183,11 @@ function JobBoard() {
           )}
           value={minimumSalaryFilter}
           onChange={(e, value) => {
-            dispatch(setMinimumSalaryFilter(value));
+            if (value) {
+              dispatch(setMinimumSalaryFilter(value.value));
+            } else {
+              dispatch(setMinimumSalaryFilter([]));
+            }
           }}
         />
         <TextField

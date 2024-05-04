@@ -1,5 +1,9 @@
 .jobboard-container {
   padding: 1rem;
+  width: 100vw;
+  max-height: 100vh;
+  min-height: 100vh;
+  overflow-y: auto;
   .filter-container {
     display: flex;
     gap: 1rem;
