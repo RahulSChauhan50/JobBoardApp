@@ -1,0 +1,131 @@
+.job-card-container {
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  border: 1px solid rgba(149, 157, 165, 0.2);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 300px;
+  min-width: 300px;
+  border-radius: 0.5rem;
+  flex-wrap: wrap;
+  .posted-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+    color: #000;
+    svg {
+      color: blue;
+    }
+    width: fit-content;
+  }
+  .company-info-header {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    .company-logo {
+      object-fit: contain;
+      width: 50px;
+    }
+    .company-info {
+      .name {
+        color: rgba(0, 0, 0, 0.5);
+        font-weight: 600;
+        font-size: 1.2rem;
+      }
+      .role {
+        font-size: 1.4rem;
+      }
+      .location {
+        font-size: 1rem;
+      }
+    }
+  }
+  .salary-range {
+    color: #5072a7;
+    font-size: 1rem;
+    font-weight: 500;
+    svg {
+      color: green;
+    }
+  }
+  .about-company {
+    position: relative;
+    .title {
+      font-size: 1.4rem;
+      color: #000;
+      margin: 0px 0px 0.5rem 0px;
+    }
+    .description {
+      font-size: 1rem;
+      color: #000;
+      max-height: 300px;
+      min-height: 300px;
+      overflow: hidden;
+      white-space: wrap;
+      text-overflow: ellipsis;
+    }
+    .view-job {
+      color: #1f75fe;
+      background: transparent;
+      border: none;
+      font-size: 1rem;
+      position: absolute;
+      font-weight: 600;
+      bottom: 0px;
+      height: 40px;
+      right: 50%;
+    }
+    .blur {
+      position: absolute;
+      bottom: 0px;
+      width: 100%;
+      height: 40px;
+      backdrop-filter: blur(1px);
+      background-color: rgba($color: #fff, $alpha: 0.5);
+    }
+  }
+  .experience-section {
+    .title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: rgba($color: #000, $alpha: 0.5);
+    }
+    .value {
+      font-size: 1.1rem;
+      color: #000;
+      font-weight: 500;
+    }
+  }
+  .job-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    .easy-apply {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 0.5rem;
+      background-color: #7fffd4;
+      border-radius: 0.5rem;
+      padding: 0.5rem;
+      text-decoration: none;
+      justify-content: center;
+      svg {
+        color: orange;
+      }
+      color: #000;
+      font-size: 1rem;
+      font-weight: 500;
+    }
+    .referral {
+      @extend .easy-apply;
+      color: #fff;
+      background-color: #1f75fe;
+    }
+  }
+}

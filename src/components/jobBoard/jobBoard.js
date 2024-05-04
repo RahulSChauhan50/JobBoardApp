@@ -21,6 +21,7 @@ function JobBoard() {
   const [offset, setOffset] = useState(0);
   const dispatch = useDispatch();
   const totalCount = useSelector((state) => state.JobCardReducer.totalCount);
+  const jdList = useSelector((state) => state.JobCardReducer.jdList);
 
   useEffect(() => {
     dispatch(getJobList({ limit, offset }));
@@ -71,7 +72,9 @@ function JobBoard() {
         <TextField label="Search Company Name" className="filter-input" />
       </div>
       <div className="job-cards">
-        <JobCard />
+        {jdList.map((item, ind) => (
+          <JobCard key={item?.jdUid} data={item} />
+        ))}
       </div>
     </div>
   );

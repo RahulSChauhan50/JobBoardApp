@@ -1,9 +1,18 @@
 .jobboard-container {
+  padding: 1rem;
   .filter-container {
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
+    justify-content: center;
+    margin: 0px 0px 0.5rem 0px;
     .filter-input {
     }
+  }
+  .job-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
   }
 }
